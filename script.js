@@ -1,3 +1,4 @@
+// 1.6 = just taken by player 1.2 = held by player 2 = permantley held by player (-.2 everything for computer)
 function initialize(){
     CurrentPlayer = null;
     x_o = ""; 
@@ -14,7 +15,7 @@ function initialize(){
 
     boxes = [box1, box2, box3, box4, box5, box6, box7, box8, box9];
     boxDisplays = [ boxD1, boxD2, boxD3, boxD4, boxD5, boxD6, boxD7, boxD8, boxD9];
-    twoLevelChoices = ["","","","","","","","",""];
+    twoLevelChoices = [null,null,null,null,null,null,null,null,null];
     
     display();
 }
@@ -35,20 +36,62 @@ function XorO(XorO){
 function choose(button){
     if(CurrentPlayer === "player"){
         boxDisplays[button-1] = x_o;
-    
+        if(twoLevelChoices[button-1] === null){
+            twoLevelChoices[button-1] = 1.6;
+        } else if(twoLevelChoices[button-1] === 1.6 || twoLevelChoices[button-1] === 1.2){
+            twoLevelChoices[button-1] = 2;
+        }
+
         // switches player
         CurrentPlayer = CurrentPlayer === "player" ? "computer" : "player";
         if(CurrentPlayer === "computer"){
             computerTurn();
         }
 
-
+        updateComputerChoices()
         display();
     }
 }
 
 function computerTurn(){
+    // finds all the possible choices
+    let possibleChoices = [];
+    for(var i=0; i<twoLevelChoices.length; i++){ 
+        if (twoLevelChoices[i] === null || twoLevelChoices[i]===1 || twoLevelChoices[i]===1.4 || twoLevelChoices[i]===1.2){
+            possibleChoices.push(i);
+        }
+    }
+    
+    // picks a random choice
+    choice = possibleChoices[parseInt(Math.random()*possibleChoices.length)];
+    console.log(choice);
 
+
+    // displays the choice and adds it to the list
+    boxDisplays[choice-1] = temp = x_o === "O" ? "X" : "O";
+    if(twoLevelChoices[choice]==null){
+        twoLevelChoices[choice] == 1.4;
+    } else if(twoLevelChoices[choice] == 1 || twoLevelChoices[choice] == 1.4){
+        twoLevelChoices[choice] == 1.8;
+    }
+    console.log(twoLevelChoices);
+
+    CurrentPlayer = CurrentPlayer === "player" ? "computer" : "player";
+
+    updatePlayerChoices();
+    display();
+}
+
+function updatePlayerChoices(){
+    for(var i=0; i<twoLevelChoices.length; i++){
+        if(twoLevelChoices[i] == 1.6){twoLevelChoices[i] = 1.2;}
+    }
+}
+
+function updateComputerChoices(){
+    for(var i=0; i<twoLevelChoices.length; i++){
+        if(twoLevelChoices[i] == 1.4){twoLevelChoices[i] = 1;}
+    }
 }
 
 function display(){

@@ -34,12 +34,15 @@ function XorO(XorO){
 }
 
 function choose(button){
-    if(CurrentPlayer === "player"){
-        boxDisplays[button-1] = x_o;
-        if(twoLevelChoices[button-1] === null){
+    if(CurrentPlayer === "player" && (twoLevelChoices[button-1] !== 1.4 || twoLevelChoices[button-1] !== 1.8)){
+        
+        // sees how to change the tic tac toe list
+        if(twoLevelChoices[button-1] === null || twoLevelChoices[button-1] === 1){
             twoLevelChoices[button-1] = 1.6;
+            boxDisplays[button-1] = x_o;
         } else if(twoLevelChoices[button-1] === 1.6 || twoLevelChoices[button-1] === 1.2){
             twoLevelChoices[button-1] = 2;
+            boxDisplays[button-1] = x_o;
         }
 
         // switches player
@@ -64,22 +67,23 @@ function computerTurn(){
     
     // picks a random choice
     choice = possibleChoices[parseInt(Math.random()*possibleChoices.length)];
-    console.log(choice);
+    console.log(choice+1);
 
 
     // displays the choice and adds it to the list
-    boxDisplays[choice-1] = temp = x_o === "O" ? "X" : "O";
-    if(twoLevelChoices[choice]==null){
-        twoLevelChoices[choice] == 1.4;
+    boxDisplays[choice] = temp = x_o === "O" ? "X" : "O";
+    if(twoLevelChoices[choice]==null || twoLevelChoices[choice-1]==1.2){
+        twoLevelChoices[choice] = 1.4;
     } else if(twoLevelChoices[choice] == 1 || twoLevelChoices[choice] == 1.4){
-        twoLevelChoices[choice] == 1.8;
+        twoLevelChoices[choice] = 1.8;
     }
     console.log(twoLevelChoices);
-
     CurrentPlayer = CurrentPlayer === "player" ? "computer" : "player";
 
     updatePlayerChoices();
+    setTimeout(100000);
     display();
+    console.log(twoLevelChoices);
 }
 
 function updatePlayerChoices(){

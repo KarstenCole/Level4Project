@@ -34,8 +34,9 @@ function XorO(XorO){
 }
 
 function choose(button){
-    if(CurrentPlayer === "player" && (twoLevelChoices[button-1] !== 1.4 || twoLevelChoices[button-1] !== 1.8)){
+    if(CurrentPlayer === "player" && !(twoLevelChoices[button-1] === 1.4 || twoLevelChoices[button-1] === 1.8)){
         
+        if(twoLevelChoices[button-1] === 1.4) {console.log("how?");}
         // sees how to change the tic tac toe list
         if(twoLevelChoices[button-1] === null || twoLevelChoices[button-1] === 1){
             twoLevelChoices[button-1] = 1.6;
@@ -51,12 +52,14 @@ function choose(button){
             computerTurn();
         }
 
-        updateComputerChoices()
+        updateComputerChoices();
+        console.log("computer updated");
         display();
+        console.log(twoLevelChoices);
     }
 }
 
-function computerTurn(){
+function computerTurn(){ //fix its choosing mech b
     // finds all the possible choices
     let possibleChoices = [];
     for(var i=0; i<twoLevelChoices.length; i++){ 
@@ -77,10 +80,10 @@ function computerTurn(){
     } else if(twoLevelChoices[choice] == 1 || twoLevelChoices[choice] == 1.4){
         twoLevelChoices[choice] = 1.8;
     }
-    console.log(twoLevelChoices);
     CurrentPlayer = CurrentPlayer === "player" ? "computer" : "player";
 
     updatePlayerChoices();
+    console.log("player updated");
     setTimeout(100000);
     display();
     console.log(twoLevelChoices);

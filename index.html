@@ -1,5 +1,3 @@
-<!-- In general they were very accurate with hitting the correct notes, and working cohesivley. 
-        23:36  very interesting intro, and very dramatic a lot of dynamics-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +13,7 @@
         <button id="X" onclick="XorO('X'); console.log('wtf');">X</button>
         <button id="0" onclick="XorO('O');">O</button>
     </div>
+    <h1>Winner: <span id="Winner"></span></h1>
     <div id="board">
         <button id="one" onclick="choose(1);">X</button>
         <button id="two" onclick="choose(2);">X</button>
@@ -27,7 +26,7 @@
         <button id="nine" onclick="choose(9);">X</button>
     </div>
     <div id="button2">
-        <button id="reset">reset</button>
+        <button id="reset" onclick="reset();">reset</button>
     </div>
 </body>
 </html>

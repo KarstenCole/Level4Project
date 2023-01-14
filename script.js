@@ -17,6 +17,8 @@ function initialize(){
     boxDisplays = [ boxD1, boxD2, boxD3, boxD4, boxD5, boxD6, boxD7, boxD8, boxD9];
     twoLevelChoices = [null,null,null,null,null,null,null,null,null];
     
+    Winner = document.getElementById("Winner");
+    
     display();
 }
 
@@ -34,9 +36,8 @@ function XorO(XorO){
 }
 
 function choose(button){
-    if(CurrentPlayer === "player" && !(twoLevelChoices[button-1] === 1.4 || twoLevelChoices[button-1] === 1.8)){
+    if(CurrentPlayer === "player" && (x_o != "") && !(twoLevelChoices[button-1] === 1.4 || twoLevelChoices[button-1] === 1.8 || twoLevelChoices[button-1] === 2)){
         
-        if(twoLevelChoices[button-1] === 1.4) {console.log("how?");}
         // sees how to change the tic tac toe list
         if(twoLevelChoices[button-1] === null || twoLevelChoices[button-1] === 1){
             twoLevelChoices[button-1] = 1.6;
@@ -45,6 +46,13 @@ function choose(button){
             twoLevelChoices[button-1] = 2;
             boxDisplays[button-1] = x_o;
         }
+        
+        // updates computer selections
+        console.log("computer update:");
+        updateComputerChoices();
+        display();
+        console.log(twoLevelChoices);
+        CheckForWin();
 
         // switches player
         CurrentPlayer = CurrentPlayer === "player" ? "computer" : "player";
@@ -52,10 +60,6 @@ function choose(button){
             computerTurn();
         }
 
-        updateComputerChoices();
-        console.log("computer updated");
-        display();
-        console.log(twoLevelChoices);
     }
 }
 
@@ -80,13 +84,16 @@ function computerTurn(){ //fix its choosing mech b
     } else if(twoLevelChoices[choice] == 1 || twoLevelChoices[choice] == 1.4){
         twoLevelChoices[choice] = 1.8;
     }
-    CurrentPlayer = CurrentPlayer === "player" ? "computer" : "player";
 
+    // updates choices
+    console.log("player update:");
     updatePlayerChoices();
-    console.log("player updated");
-    setTimeout(100000);
     display();
     console.log(twoLevelChoices);
+    CheckForWin();
+
+    // switches player
+    CurrentPlayer = CurrentPlayer === "player" ? "computer" : "player";
 }
 
 function updatePlayerChoices(){
@@ -99,6 +106,31 @@ function updateComputerChoices(){
     for(var i=0; i<twoLevelChoices.length; i++){
         if(twoLevelChoices[i] == 1.4){twoLevelChoices[i] = 1;}
     }
+}
+
+function CheckForWin(){
+    if(
+        // Horizontal
+       ((boxDisplays[0] === boxDisplays[1] && boxDisplays[1] === boxDisplays[2]) && (boxDisplays[0] != "")) ||
+       ((boxDisplays[3] === boxDisplays[4] && boxDisplays[4] === boxDisplays[5])  && (boxDisplays[3] != ""))||
+       ((boxDisplays[6] === boxDisplays[7] && boxDisplays[7] === boxDisplays[8])  && (boxDisplays[6] != ""))||
+        // Vertical
+       ((boxDisplays[0] === boxDisplays[3] && boxDisplays[3] === boxDisplays[6])  && (boxDisplays[0] != ""))||
+       ((boxDisplays[1] === boxDisplays[4] && boxDisplays[4] === boxDisplays[7])  && (boxDisplays[1] != ""))||
+       ((boxDisplays[2] === boxDisplays[5] && boxDisplays[5] === boxDisplays[8])  && (boxDisplays[2] != ""))||
+        //Diagonal
+       ((boxDisplays[0] === boxDisplays[4] && boxDisplays[4] === boxDisplays[8])  && (boxDisplays[0] != ""))||
+       ((boxDisplays[2] === boxDisplays[4] && boxDisplays[4] === boxDisplays[6]) && (boxDisplays[2] != ""))){
+
+        reset(CurrentPlayer, true);
+
+       }
+}
+
+function reset(player,win){
+    initialize();
+    display();
+    Winner.innerHTML = win ? player : "";
 }
 
 function display(){

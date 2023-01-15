@@ -1,5 +1,5 @@
 // 1.6 = just taken by player 1.2 = held by player 2 = permantley held by player (-.2 everything for computer)
-function initialize(){
+function initialize(reset){
     CurrentPlayer = null;
     x_o = ""; 
     box1 = document.getElementById("one");
@@ -18,7 +18,20 @@ function initialize(){
     twoLevelChoices = [null,null,null,null,null,null,null,null,null];
     
     Winner = document.getElementById("Winner");
-    
+    if(!reset){
+        r_h = document.getElementById("R-H");
+
+        p1 = document.getElementById("p1");    p2 = document.getElementById("p2");    p3 = document.getElementById("p3");
+        OgHtml = [p1.innerHTML, p2.innerHTML, p3.innerHTML];
+        console.log(OgHtml);
+
+        instructions = false;
+        p1.innerHTML = null;
+        p2.innerHTML = null;
+        p3.innerHTML = null;
+        console.log(OgHtml);
+    }
+
     display();
 }
 
@@ -128,9 +141,21 @@ function CheckForWin(){
 }
 
 function reset(player,win){
-    initialize();
+    initialize(true);
     display();
     Winner.innerHTML = win ? player : "";
+}
+
+function revealInstructions(){
+    instructions = !instructions;
+    if(instructions){
+        r_h.innerHTML = "hide";
+        p1.innerHTML = OgHtml[0]; p2.innerHTML = OgHtml[1]; p3.innerHTML = OgHtml[2];
+    } else{
+        r_h.innerHTML = "reveal";
+        p1.innerHTML = null; p2.innerHTML = null; p3.innerHTML = null;
+    }
+
 }
 
 function display(){

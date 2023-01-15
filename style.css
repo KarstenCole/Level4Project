@@ -40,3 +40,16 @@
 h1{
     text-align: center;
 }
+#intro{
+    text-align: center;
+    font-size: 25px;
+    margin: 0 250px 0 250px;
+}
+#title{
+    font-size: 55px;
+    font-weight: bold;
+    text-align: center;
+}
+div>button{
+    font-size: 25px;
+}
